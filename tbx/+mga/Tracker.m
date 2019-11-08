@@ -15,18 +15,6 @@ classdef Tracker < matlab.mixin.SetGet
         function obj = Tracker(varargin)
             %TRACKER Class constructor
             
-            % assign inputs
-            set(obj, varargin{:});
-            
-        end % Tracker
-        
-    end % structors
-    
-    methods (Static)
-        
-        function obj = getInstance(varargin)
-            %GETINSTANCE Returns singleton tracker object
-            
             % parse inputs
             persistent p
             if isempty(p)
@@ -36,30 +24,11 @@ classdef Tracker < matlab.mixin.SetGet
             end % if
             p.parse(varargin{:});
             
-            % either get table of current trackers, or create new tracker
-            % if no table exists
-            persistent t
-            if isempty(t)
-                obj = mga.Tracker(p.Results);
-                t = table(p.Results.TrackingID, p.Results.Hostname, obj, ...
-                    'VariableNames', {'TrackingID', 'Hostname', 'Object'});
-                return
-            end % if
+            % assign inputs
+            set(obj, p.Results);
             
-            % extract singleton from table, or create new tracker if it
-            % doesnt exist
-            idx = ismember(t.TrackingID, p.Results.TrackingID) & ...
-                ismember(t.Hostname, p.Results.Hostname);
-            if ~idx
-                obj = mga.Tracker(p.Results);
-                t = [t; table(p.Results.TrackingID, p.Results.Hostname, obj, ...
-                    'VariableNames', {'TrackingID', 'Hostname', 'Object'})];
-            else
-                obj = t.Object(idx);
-            end % if else
-            
-        end % getInstance
+        end % Tracker
         
-    end % static methods
+    end % structors
     
 end % Tracker
