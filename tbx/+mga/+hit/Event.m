@@ -30,9 +30,9 @@ classdef Event < mga.hit.Hit
             if isempty(p)
                 p = inputParser;
                 p.KeepUnmatched = true;
-                p.addRequired('Category', @isStringScalar);
-                p.addRequired('Action', @isStringScalar);
-                p.addParameter('Label', "", @isStringScalar);
+                p.addRequired('Category', @isStringScalar); % TODO: Validate is <= 150 bytes
+                p.addRequired('Action', @isStringScalar); %TODO: Validate is <= 500 bytes
+                p.addParameter('Label', "", @isStringScalar); %TODO: Validatre is <= 500 bytes
                 p.addParameter('Value', double.empty, @(v) isnumeric(v) && issalar(v) && isgt(v, 0));
             end % if
             p.parse(varargin{:});

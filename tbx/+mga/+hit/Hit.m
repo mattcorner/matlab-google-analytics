@@ -1,5 +1,10 @@
 classdef (Abstract) Hit < matlab.mixin.SetGet
     %HIT Superclass for hits
+    %
+    %   h = Hit() constructs with default values
+    %   
+    %   h = Hit('Name', Value) constructs with optional properties:
+    %       - NonInteraction
     
     properties (Abstract, Constant)
         Type % The type of hit. Must be one of 'pageview', 'screenview', 'event', 'transaction', 'item', 'social', 'exception', 'timing'.

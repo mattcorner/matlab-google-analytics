@@ -17,8 +17,8 @@ classdef Tracker < matlab.mixin.SetGet
             
             % parse inputs
             p = inputParser;
-            p.addRequired('TrackingID', @isStringScalar);
-            p.addRequired('Hostname', @isStringScalar);
+            p.addRequired('TrackingID', @isStringScalar); % TODO: Validate according to google requirements
+            p.addRequired('Hostname', @isStringScalar); % TODO: Validate is valid hostname
             p.parse(varargin{:});
             
             % assign inputs
