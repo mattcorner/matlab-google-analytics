@@ -15,14 +15,8 @@ classdef Tracker < matlab.mixin.SetGet
         function obj = Tracker(varargin)
             %TRACKER Class constructor
             
-            % parse inputs
-            p = inputParser;
-            p.addRequired('TrackingID', @isStringScalar); % TODO: Validate according to google requirements
-            p.addRequired('Hostname', @isStringScalar); % TODO: Validate is valid hostname
-            p.parse(varargin{:});
-            
             % assign inputs
-            set(obj, p.Results);
+            set(obj, varargin{:});
             
         end % Tracker
         
@@ -30,16 +24,38 @@ classdef Tracker < matlab.mixin.SetGet
     
     methods (Static)
         
-        function obj = getInstance
+        function obj = getInstance(varargin)
             %GETINSTANCE Returns singleton tracker object
             
-            % either get stored singleton, or construct new
-            persistent uniqueInstance
-            if isempty(uniqueInstance)
-                obj = mga.Tracker;
-                uniqueInstance = obj;
+            % parse inputs
+            persistent p
+            if isempty(p)
+                p = inputParser;
+                p.addRequired('TrackingID', @isStringScalar); % TODO: Validate according to google requirements
+                p.addRequired('Hostname', @isStringScalar); % TODO: Validate is valid hostname
+            end % if
+            p.parse(varargin{:});
+            
+            % either get table of current trackers, or create new tracker
+            % if no table exists
+            persistent t
+            if isempty(t)
+                obj = mga.Tracker(p.Results);
+                t = table(p.Results.TrackingID, p.Results.Hostname, obj, ...
+                    'VariableNames', {'TrackingID', 'Hostname', 'Object'});
+                return
+            end % if
+            
+            % extract singleton from table, or create new tracker if it
+            % doesnt exist
+            idx = ismember(t.TrackingID, p.Results.TrackingID) & ...
+                ismember(t.Hostname, p.Results.Hostname);
+            if ~idx
+                obj = mga.Tracker(p.Results);
+                t = [t; table(p.Results.TrackingID, p.Results.Hostname, obj, ...
+                    'VariableNames', {'TrackingID', 'Hostname', 'Object'})];
             else
-                obj = uniqueInstance;
+                obj = t.Object(idx);
             end % if else
             
         end % getInstance
