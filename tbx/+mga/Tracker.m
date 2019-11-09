@@ -1,5 +1,5 @@
 classdef Tracker < matlab.mixin.SetGet
-    %TRACKER Singleton tracker object
+    %TRACKER
     
     properties (Constant)
         ProtocolVersion = 1 % The Protocol version. The current value is '1'. This will only change when there are changes made that are not backwards compatible.
@@ -9,6 +9,10 @@ classdef Tracker < matlab.mixin.SetGet
         TrackingID % The tracking ID / web property ID. The format is UA-XXXX-Y. All collected data is associated by this ID.
         Hostname % Specifies the hostname from which content was hosted.
     end % read-only properties
+    
+    properties (Constant, Access = private)
+        TrackingURL = "https://www.google-analytics.com/collect" % Http post endpoint for Google Analytics
+    end % private constant properties
     
     methods
         
