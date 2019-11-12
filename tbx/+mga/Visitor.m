@@ -32,6 +32,30 @@ classdef Visitor < matlab.mixin.SetGet & handle
         
     end % structors
     
+    methods
+        
+        function str = string(obj)
+            %STRING Convert hit to query parameters string
+            
+            % convert to struct using measurement protocol query names
+            s.cid = obj.ClientID;
+            if ~isempty(obj.UserID)
+                s.uid = obj.UserID;
+            end % if
+            s.sr = obj.ScreenResolution;
+            s.sd = obj.ScreenColors;
+            s.ul = obj.UserLanguage;
+            s.ds = obj.DataSource;
+            
+            % make use of matlabs query parameter to convert to a formatted
+            % string
+            q = matlab.net.QueryParameter(s);
+            str = q.string;
+            
+        end % string
+        
+    end % public methods
+    
     methods (Static, Access = private)
         
         function cid = getClientID

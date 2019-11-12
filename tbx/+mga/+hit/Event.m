@@ -32,7 +32,7 @@ classdef Event < mga.hit.Hit
                 p.KeepUnmatched = true;
                 p.addRequired('Category', @isStringScalar); % TODO: Validate is <= 150 bytes
                 p.addRequired('Action', @isStringScalar); %TODO: Validate is <= 500 bytes
-                p.addParameter('Label', "", @isStringScalar); %TODO: Validatre is <= 500 bytes
+                p.addParameter('Label', string.empty, @isStringScalar); %TODO: Validatre is <= 500 bytes
                 p.addParameter('Value', double.empty, @(v) isnumeric(v) && issalar(v) && isgt(v, 0));
             end % if
             p.parse(varargin{:});
@@ -46,5 +46,29 @@ classdef Event < mga.hit.Hit
         end % Event
         
     end % structors
+    
+    methods
+        
+        function str = string(obj)
+            %STRING Convert hit to query parameters string
+            
+            % convert to struct using measurement protocol query names
+            s.ec = obj.Category;
+            s.ea = obj.Action;
+            if ~isempty(obj.Label)
+                s.el = obj.Label;
+            end % if
+            if ~isempty(obj.Value)
+                s.ev = obj.Value;
+            end % if
+            
+            % make use of matlabs query parameter to convert to a formatted
+            % string
+            q = matlab.net.QueryParameter(s);
+            str = q.string;
+            
+        end % string
+        
+    end % public methods
     
 end % classdef
