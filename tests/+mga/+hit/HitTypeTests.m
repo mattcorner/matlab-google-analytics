@@ -1,12 +1,12 @@
-classdef HitTypeUnitTests < matlab.unittest.TestCase
-    %HITTYPEUNITTESTS Unit tests for mga.hit.HitType
+classdef HitTypeTests < matlab.unittest.TestCase
+    %HITTYPETESTS Tests for mga.hit.HitType
     
     properties (TestParameter)
         Type = {'pageview', 'screenview', 'event', 'transaction', 'item', ...
             'social', 'timing', 'exception'} % hit types supported by google
     end % test parameters
     
-    methods (Test)
+    methods (Test, TestTags = "Unit")
         
         function hasAllTypes(testCase, Type)
             %HASALLTYPES Tests that we can enumerate all supported hit
