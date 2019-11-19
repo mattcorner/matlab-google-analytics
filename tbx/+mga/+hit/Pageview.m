@@ -43,8 +43,8 @@ classdef Pageview < mga.hit.Hit
     
     methods
         
-        function str = string(obj)
-            %STRING Convert hit to query parameters string
+        function qp = queryParameters(obj)
+            %QUERYPARAMETERS Convert hit to query parameters objects
             
             % convert to struct using measurement protocol query names
             s.t = obj.Type.string;
@@ -53,12 +53,10 @@ classdef Pageview < mga.hit.Hit
                 s.dt = obj.Title;
             end % if
             
-            % make use of matlabs query parameter to convert to a formatted
-            % string
-            q = matlab.net.QueryParameter(s);
-            str = q.string;
+            % convert to query parameters
+            qp = matlab.net.QueryParameter(s);
             
-        end % string
+        end % queryParameters
         
     end % public methods
     

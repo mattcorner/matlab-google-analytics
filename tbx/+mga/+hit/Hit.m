@@ -1,4 +1,5 @@
-classdef (Abstract) Hit < matlab.mixin.SetGet
+classdef (Abstract) Hit < matlab.mixin.SetGet & ...
+        mga.QueryGroup
     %HIT Superclass for hits
     %
     %   h = Hit() constructs with default values
