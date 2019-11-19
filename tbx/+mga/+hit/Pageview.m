@@ -8,7 +8,7 @@ classdef Pageview < mga.hit.Hit
     %       - Title
     
     properties (Constant)
-        Type = "Pageview" % The type of hit.
+        Type = mga.hit.HitType.pageview % The type of hit.
     end % constant properties
     
     properties (SetAccess = private, AbortSet = true)
@@ -47,7 +47,7 @@ classdef Pageview < mga.hit.Hit
             %STRING Convert hit to query parameters string
             
             % convert to struct using measurement protocol query names
-            s.t = "pageview";
+            s.t = obj.Type.string;
             s.dp = obj.Path;
             if ~isempty(obj.Title)
                 s.dt = obj.Title;

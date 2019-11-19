@@ -10,7 +10,7 @@ classdef Event < mga.hit.Hit
     %       - Value
     
     properties (Constant)
-        Type = "Event" % The type of hit.
+        Type = mga.hit.HitType.event % The type of hit.
     end % constant properties
     
     properties (SetAccess = private, AbortSet = true)
@@ -53,7 +53,7 @@ classdef Event < mga.hit.Hit
             %STRING Convert hit to query parameters string
             
             % convert to struct using measurement protocol query names
-            s.t = "event";
+            s.t = obj.Type.string;
             s.ec = obj.Category;
             s.ea = obj.Action;
             if ~isempty(obj.Label)
