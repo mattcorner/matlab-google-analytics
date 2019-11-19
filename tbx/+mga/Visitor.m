@@ -8,6 +8,8 @@ classdef Visitor < matlab.mixin.SetGet & handle
         ScreenColors % Specifies the screen color depth.
         UserLanguage % Specifies the language.
         DataSource % Indicates the data source of the hit. In this case, operating system / matlab version is used.
+        UserAgent % The User Agent of the browser.
+        AppVersion % Version of application being tracked
     end % read-only properties
     
     methods
@@ -18,6 +20,7 @@ classdef Visitor < matlab.mixin.SetGet & handle
             % parse inputs
             p = inputParser;
             p.addParameter('UserID', string.empty, @isStringScalar);
+            p.addParameter('AppVersion', "unknown", @isStringScalar);
             p.parse(varargin{:});
             
             % assign properties
@@ -26,7 +29,8 @@ classdef Visitor < matlab.mixin.SetGet & handle
             obj.ScreenResolution = obj.getScreenResolution;
             obj.ScreenColors = get(0, 'ScreenDepth') + "-bits";
             obj.UserLanguage = string(get(0, 'Language'));
-            obj.DataSource =  obj.getOS + " / " + obj.getMatlab;
+            obj.UserAgent =  obj.getMatlab + "/" + p.Results.AppVersion + " (" + obj.getOS + ")";
+            obj.DataSource = obj.getDataSource;
             
         end % Visitor
         
@@ -84,7 +88,7 @@ classdef Visitor < matlab.mixin.SetGet & handle
             
             % get name and version and convert to string
             [name, version] = mga.util.detectOS;
-            os = name + " (" + strjoin(string(version), ".") + ")";
+            os = name + " " + strjoin(string(version), ".");
             
             % capitalise
             os{1}(1) = upper(os{1}(1));
@@ -98,6 +102,16 @@ classdef Visitor < matlab.mixin.SetGet & handle
             m = extractBetween(v.Release, "(", ")");
             
         end % getMatlab
+        
+        function ds = getDataSource
+            %GETDATASOURCE Returns data source
+            
+            if isdeployed
+                ds = "deployed";
+            else
+                ds = "matlab";
+            end % if else
+        end % getDataSource
         
     end % static private methods
     
