@@ -1,4 +1,5 @@
-classdef Tracker < matlab.mixin.SetGet
+classdef Tracker < matlab.mixin.SetGet & ...
+        mga.QueryGroup
     %TRACKER
     
     properties (Constant)
@@ -34,5 +35,52 @@ classdef Tracker < matlab.mixin.SetGet
         end % Tracker
         
     end % structors
+    
+    methods
+        
+        function qp = queryParameters(obj)
+            %QUERYPARAMETERS Convert tracker to query parameter objects
+            
+            s.v = obj.ProtocolVersion;
+            s.tid = obj.TrackingID;
+            s.dh = obj.Hostname;
+            
+            % convert to query parameters
+            qp = matlab.net.QueryParameter(s);
+            
+        end % queryParameters
+        
+        function u = uri(obj, qp)
+            
+            % parse inputs
+            persistent p
+            if isempty(p)
+                p = inputParser;
+                p.addRequired('QueryParams', @(qp) all(isa(qp, 'matlab.net.QueryParameter')));
+            end % if
+            p.parse(qp);
+            
+            % combine uri and query parameters into a string
+            uri = matlab.net.URI(obj.TrackingURL, qp);
+            u = uri.string;
+            
+        end % string
+        
+        function r = track(obj, user, hit)
+            %TRACK Track a hit
+            
+            % combine all query parameters
+            qp = cellfun(@(o) o.queryParameters, {obj, user, hit}, 'Un', 0);
+            qp = [qp{:}];
+            
+            % create url string
+            url = obj.uri(qp);
+            
+            % track hit
+            [~, r] = urlread(url); %#ok<URLRD>
+            
+        end % track
+        
+    end % public methods
     
 end % Tracker
