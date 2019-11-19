@@ -53,6 +53,7 @@ classdef Event < mga.hit.Hit
             %STRING Convert hit to query parameters string
             
             % convert to struct using measurement protocol query names
+            s.t = "event";
             s.ec = obj.Category;
             s.ea = obj.Action;
             if ~isempty(obj.Label)
