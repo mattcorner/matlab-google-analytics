@@ -29,7 +29,7 @@ classdef Visitor < matlab.mixin.SetGet & handle
             obj.ScreenResolution = obj.getScreenResolution;
             obj.ScreenColors = get(0, 'ScreenDepth') + "-bits";
             obj.UserLanguage = string(get(0, 'Language'));
-            obj.UserAgent =  obj.getMatlab + "/" + p.Results.AppVersion + " (" + obj.getOS + ")";
+            obj.UserAgent = obj.getMatlab + "/" + p.Results.AppVersion + " (" + obj.getOS + ")";
             obj.DataSource = obj.getDataSource;
             
         end % Visitor
@@ -50,6 +50,7 @@ classdef Visitor < matlab.mixin.SetGet & handle
             s.sd = obj.ScreenColors;
             s.ul = obj.UserLanguage;
             s.ds = obj.DataSource;
+            s.ua = obj.UserAgent;
             
             % make use of matlabs query parameter to convert to a formatted
             % string
