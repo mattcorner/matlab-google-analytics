@@ -33,7 +33,7 @@ classdef Event < mga.hit.Hit
                 p.addRequired('Category', @isStringScalar); % TODO: Validate is <= 150 bytes
                 p.addRequired('Action', @isStringScalar); %TODO: Validate is <= 500 bytes
                 p.addParameter('Label', string.empty, @isStringScalar); %TODO: Validatre is <= 500 bytes
-                p.addParameter('Value', double.empty, @(v) isnumeric(v) && issalar(v) && isgt(v, 0));
+                p.addParameter('Value', double.empty, @(v) isnumeric(v) && isscalar(v) && gt(v, 0));
             end % if
             p.parse(varargin{:});
             
