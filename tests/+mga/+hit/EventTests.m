@@ -42,9 +42,57 @@ classdef EventTests < matlab.unittest.TestCase
             
         end % canConstructWithOptionalInputs
         
-        %getErrorOnOversizeCategory
-        %getErrorOnOversizeAction
-        %getErroronOversizeLabel
+        function getErrorOnOversizeCategory(testCase)
+            %GETERRORONOVERSIZECATEGORY Test that the google byte limit on
+            %Event Category is honoured
+            
+            % verify error on construction
+            cat = "Ssjda59fNw27CQFyoN8c IJ1ikJm9vsoxcGp1DYjN 4CmLxS62vHSyatFAcbVh" + ...
+                "PAmODrv0prZNlXiJAO4C F9Lg8Sk3U7HDjjZf6EjX f8gwkl4u47hynFWvzBUf" + ...
+                "YnScIZa8J1A17GbkHdwY dZ4WVEJGJjn3Wdg9EPGv bHYbnUMrWGzZUK2K8DXL";
+            act = "Oversize category";
+            testCase.verifyError(@() mga.hit.Event(cat, act), 'Hit:maxLengthExceeded');
+            
+        end % getErrorOnOversizeCategory
+        
+        function getErrorOnOversizeAction(testCase)
+            %GETERRORONOVERSIZEACTION Test that the google byte limit on
+            %Event Action is honoured
+            
+            % verify error on construction
+            cat = "Oversized action";
+            act = "Ssjda59fNw27CQFyoN8c IJ1ikJm9vsoxcGp1DYjN 4CmLxS62vHSyatFAcbVh" + ...
+                "PAmODrv0prZNlXiJAO4C F9Lg8Sk3U7HDjjZf6EjX f8gwkl4u47hynFWvzBUf" + ...
+                "YnScIZa8J1A17GbkHdwY dZ4WVEJGJjn3Wdg9EPGv bHYbnUMrWGzZUK2K8DXL" + ...
+                "Ssjda59fNw27CQFyoN8c IJ1ikJm9vsoxcGp1DYjN 4CmLxS62vHSyatFAcbVh" + ...
+                "PAmODrv0prZNlXiJAO4C F9Lg8Sk3U7HDjjZf6EjX f8gwkl4u47hynFWvzBUf" + ...
+                "YnScIZa8J1A17GbkHdwY dZ4WVEJGJjn3Wdg9EPGv bHYbnUMrWGzZUK2K8DXL" + ...
+                "Ssjda59fNw27CQFyoN8c IJ1ikJm9vsoxcGp1DYjN 4CmLxS62vHSyatFAcbVh" + ...
+                "YnScIZa8J1A17GbkHdwY dZ4WVEJGJjn3Wdg9EPGv bHYbnUMrWGzZUK2K8DXL" + ...
+                "YnScIZa8J1A17GbkHdwY dZ4WVEJGJjn3Wdg9EPGv bHYbnUMrWGzZUK2K8DXL";
+            testCase.verifyError(@() mga.hit.Event(cat, act), 'Hit:maxLengthExceeded');
+            
+        end % getErrorOnOversizeAction
+        
+        function getErrorOnOversizeLabel(testCase)
+            %GETERRORONOVERSIZELABEL Test that the google byte limit on
+            %Event Label is honoured
+            
+            % verify error on construction
+            cat = "Oversized label";
+            act = "Action";
+            lbl = "Ssjda59fNw27CQFyoN8c IJ1ikJm9vsoxcGp1DYjN 4CmLxS62vHSyatFAcbVh" + ...
+                "PAmODrv0prZNlXiJAO4C F9Lg8Sk3U7HDjjZf6EjX f8gwkl4u47hynFWvzBUf" + ...
+                "YnScIZa8J1A17GbkHdwY dZ4WVEJGJjn3Wdg9EPGv bHYbnUMrWGzZUK2K8DXL" + ...
+                "Ssjda59fNw27CQFyoN8c IJ1ikJm9vsoxcGp1DYjN 4CmLxS62vHSyatFAcbVh" + ...
+                "PAmODrv0prZNlXiJAO4C F9Lg8Sk3U7HDjjZf6EjX f8gwkl4u47hynFWvzBUf" + ...
+                "YnScIZa8J1A17GbkHdwY dZ4WVEJGJjn3Wdg9EPGv bHYbnUMrWGzZUK2K8DXL" + ...
+                "Ssjda59fNw27CQFyoN8c IJ1ikJm9vsoxcGp1DYjN 4CmLxS62vHSyatFAcbVh" + ...
+                "YnScIZa8J1A17GbkHdwY dZ4WVEJGJjn3Wdg9EPGv bHYbnUMrWGzZUK2K8DXL" + ...
+                "YnScIZa8J1A17GbkHdwY dZ4WVEJGJjn3Wdg9EPGv bHYbnUMrWGzZUK2K8DXL";
+            testCase.verifyError(@() mga.hit.Event(cat, act, 'Label', lbl), 'Hit:maxLengthExceeded');
+            
+        end % getErrorOnOversizeLabel
         %queryParametersForRequiredInputs
         %queryParametersForOptionalInputs
         

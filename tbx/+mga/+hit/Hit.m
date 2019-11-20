@@ -35,4 +35,19 @@ classdef (Abstract) Hit < matlab.mixin.SetGet & ...
         
     end % structors
     
+    methods (Static, Access = protected)
+        
+        function tf = validateByteLength(str, len, prop)
+            %VALIDATEBYTELENGTH Errors if byte length of string exceeds max
+            %length
+            
+            assert(numel(unicode2native(str, 'utf-8')) <= len, ...
+                'Hit:maxLengthExceeded', ...
+                "'" + prop + "' exceeds max length of " + len + "bytes");
+            tf = true;
+            
+        end % validateByteLength
+        
+    end % static protected methods
+    
 end % classdef
