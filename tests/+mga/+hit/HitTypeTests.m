@@ -17,6 +17,6 @@ classdef HitTypeTests < matlab.unittest.TestCase
             
         end % hasAllTypes
         
-    end % test methods
+    end % unit test methods
     
 end % classdef
