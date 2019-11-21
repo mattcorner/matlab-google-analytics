@@ -72,6 +72,15 @@ classdef Tracker < matlab.mixin.SetGet & ...
         function r = track(obj, user, hit)
             %TRACK Track a hit
             
+            % parse inputs
+            persistent p
+            if isempty(p)
+                p = inputParser;
+                p.addRequired('User', @(u) isa(u, 'mga.Visitor'));
+                p.addRequired('Hit', @(h) isa(h, 'mga.hit.Hit'));
+            end % if
+            p.parse(user, hit);
+            
             % combine all query parameters
             qp = cellfun(@(o) o.queryParameters, {obj, user, hit}, 'Un', 0);
             qp = [qp{:}];
