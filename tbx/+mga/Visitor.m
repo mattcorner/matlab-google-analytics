@@ -98,6 +98,7 @@ classdef Visitor < matlab.mixin.SetGet & ...
         function m = getMatlab
             %GETMATLAB Returns matlab version
             
+            % extract release string
             v = ver('matlab');
             m = extractBetween(v.Release, "(", ")");
             
@@ -106,11 +107,13 @@ classdef Visitor < matlab.mixin.SetGet & ...
         function ds = getDataSource
             %GETDATASOURCE Returns data source
             
+            % are we deployed or running in matlab
             if isdeployed
                 ds = "deployed";
             else
                 ds = "matlab";
             end % if else
+            
         end % getDataSource
         
     end % static private methods
