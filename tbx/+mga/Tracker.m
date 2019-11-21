@@ -1,6 +1,9 @@
 classdef Tracker < matlab.mixin.SetGet & ...
         mga.QueryGroup
-    %TRACKER
+    %TRACKER Tracker for logging hits to google analytics
+    %
+    %   t = Tracker(trackingID, hostname) creates a tracker for a unique
+    %   google tracking id.
     
     properties (Constant)
         ProtocolVersion = 1 % The Protocol version. The current value is '1'. This will only change when there are changes made that are not backwards compatible.
