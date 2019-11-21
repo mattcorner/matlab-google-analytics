@@ -8,6 +8,7 @@ classdef Event < mga.hit.Hit
     %   properties:
     %       - Label
     %       - Value
+    %       - NonInteraction
     
     properties (Constant)
         Type = mga.hit.HitType.event % The type of hit.
@@ -55,8 +56,6 @@ classdef Event < mga.hit.Hit
         function qp = queryParameters(obj)
             %QUERYPARAMETERS Convert hit to query parameter objects
             
-            %TODO: We need the superclass parameters as well
-            
             % convert to struct using measurement protocol query names
             s.t = obj.Type.string;
             s.ec = obj.Category;
@@ -70,6 +69,9 @@ classdef Event < mga.hit.Hit
             
             % convert to query parameters
             qp = matlab.net.QueryParameter(s);
+            
+            % combine superclass parameters
+            qp = [qp, queryParameters@mga.hit.Hit(obj)];
             
         end % queryParameters
         

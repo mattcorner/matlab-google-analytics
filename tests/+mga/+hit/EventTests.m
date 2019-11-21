@@ -93,8 +93,56 @@ classdef EventTests < matlab.unittest.TestCase
             testCase.verifyError(@() mga.hit.Event(cat, act, 'Label', lbl), 'Hit:maxLengthExceeded');
             
         end % getErrorOnOversizeLabel
-        %queryParametersForRequiredInputs
-        %queryParametersForOptionalInputs
+        
+        function queryParametersForRequiredInputs(testCase)
+            %QUERYPARAMETERSFORREQUIREDINPUTS Tests that we can return a
+            %QueryParameters array for just required inputs
+            
+            % construct event
+            cat = "Unit tests";
+            act = "Required inputs";
+            evt = mga.hit.Event(cat, act);
+            
+            % verify warning free method call
+            qp = testCase.verifyWarningFree(@() evt.queryParameters);
+            
+            % verify array of query parameters
+            testCase.verifyClass(qp, 'matlab.net.QueryParameter');
+            testCase.verifySize(qp, [1 3]);
+            
+            % verify names
+            import matlab.unittest.constraints.*
+            testCase.verifyThat([qp.Name], IsSameSetAs(["t", "ec", "ea"]));
+            
+        end % queryParameyersForRequiredInputs
+        
+        function queryParametersForOptionalInputs(testCase)
+            %QUERYPARAMETERSFOROPTIONALINPUTS Tests that we can return a
+            %QueryParameters array for all inputs
+            
+            % construct event
+            cat = "Unit tests";
+            act = "Optional inputs";
+            lbl = "A label";
+            val = 123;
+            ni = true;
+            pvpairs = {'Label', lbl, ...
+                'Value', val, ...
+                'NonInteraction', ni};
+            evt = mga.hit.Event(cat, act, pvpairs{:});
+            
+            % verify warning free method call
+            qp = testCase.verifyWarningFree(@() evt.queryParameters);
+            
+            % verify array of query parameters
+            testCase.verifyClass(qp, 'matlab.net.QueryParameter');
+            testCase.verifySize(qp, [1 6]);
+            
+            % verify names
+            import matlab.unittest.constraints.*
+            testCase.verifyThat([qp.Name], IsSameSetAs(["t", "ec", "ea", "el", "ev", "ni"]));
+            
+        end % queryParametersForOptionalInputs
         
     end % unit test methods
     
